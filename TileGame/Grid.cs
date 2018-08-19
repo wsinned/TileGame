@@ -45,5 +45,16 @@ namespace TileGame
         {
             return _tiles.Values.Where(t => t.Row == row).OrderBy(t => t.Column).ToList();
         }
+
+        public bool CanColumnMove(int columnId, Direction direction)
+        {
+            var column = GetColumn(columnId);
+            if (column.Count(t => t is NumberTile) == 0) return false;
+            if (column.Count(t => t is NumberTile) == 1)
+            {
+                if (column[0] is NumberTile) return false;
+            }
+            return true;
+        }
     }
 }

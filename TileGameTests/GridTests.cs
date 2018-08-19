@@ -73,5 +73,22 @@ namespace TileGameTests
 
             grid.GetRow(1).Count(t => t is NumberTile).Should().Be(1);
         }
+
+        [Fact]
+        public void An_empty_column_should_not_have_a_move()
+        {
+            var grid = new Grid(4);
+
+            grid.CanColumnMove(1, Direction.North).Should().BeFalse();
+        }
+
+        [Fact]
+        public void A_column_with_a_single_tile_at_row_0_should_not_move_north()
+        {
+            var grid = new Grid(4);
+            grid.SetTile(new NumberTile { Location = new Location(0, 1), Value = 2 });
+
+            grid.CanColumnMove(1, Direction.North).Should().BeFalse();
+        }
     }
 }
