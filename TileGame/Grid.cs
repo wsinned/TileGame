@@ -66,21 +66,37 @@ namespace TileGame
             return true;
         }
 
-        public bool CanColumnMoveNorth(List<Tile> column, IEnumerable<Tile> numberTiles)
+        private bool CanColumnMoveNorth(List<Tile> column, IEnumerable<Tile> numberTiles)
         {
             if (numberTiles.Count() == 0) return false;
-            if (numberTiles.Count() == 1)
-            {
-                if (column[0] is NumberTile) return false;
 
-                foreach (var tile in numberTiles)
-                {
-                    if (column[tile.Row - 1] is EmptyTile) return true;
+            var canMove = false;
+
+
+            foreach (var tile in numberTiles)
+            {
+                if (tile.Row == 0) {
+                    canMove = false;
+                    continue;
                 }
 
+                var prevTile = column[tile.Row - 1];
+
+                if (prevTile is EmptyTile)
+                {
+                    canMove = true;
+                    return canMove;
+                }
+
+                if (prevTile is NumberTile && (((NumberTile)prevTile).Value == ((NumberTile)tile).Value ))
+                {
+                    canMove = true;
+                    return canMove;
+                }
             }
 
-            return false;
+
+            return canMove;
         }
     }
 }

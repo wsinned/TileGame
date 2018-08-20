@@ -109,5 +109,39 @@ namespace TileGameTests
 
             grid.CanColumnMove(1, Direction.North).Should().BeTrue();
         }
+
+        [Fact]
+        public void A_column_with_a_numberTile_at_row_0_and_another_after_an_emprtyTile_can_move_north()
+        {
+            var grid = new Grid(4);
+            grid.SetTile(new NumberTile { Location = new Location(1, 1), Value = 2 });
+            grid.SetTile(new NumberTile { Location = new Location(3, 1), Value = 4 });
+
+            grid.CanColumnMove(1, Direction.North).Should().BeTrue();
+        }
+
+        [Fact]
+        public void A_column_full_of_different_values_cannot_move_north()
+        {
+            var grid = new Grid(4);
+            grid.SetTile(new NumberTile { Location = new Location(0, 1), Value = 2 });
+            grid.SetTile(new NumberTile { Location = new Location(1, 1), Value = 4 });
+            grid.SetTile(new NumberTile { Location = new Location(2, 1), Value = 8 });
+            grid.SetTile(new NumberTile { Location = new Location(3, 1), Value = 16 });
+
+            grid.CanColumnMove(1, Direction.North).Should().BeFalse();
+        }
+
+        [Fact]
+        public void A_column_with_adjacent_same_value_tiles_can_move_north()
+        {
+            var grid = new Grid(4);
+            grid.SetTile(new NumberTile { Location = new Location(0, 1), Value = 2 });
+            grid.SetTile(new NumberTile { Location = new Location(1, 1), Value = 4 });
+            grid.SetTile(new NumberTile { Location = new Location(2, 1), Value = 4 });
+            grid.SetTile(new NumberTile { Location = new Location(3, 1), Value = 16 });
+
+            grid.CanColumnMove(1, Direction.North).Should().BeTrue();
+        }
     }
 }
