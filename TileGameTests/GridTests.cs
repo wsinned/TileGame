@@ -88,7 +88,8 @@ namespace TileGameTests
         {
             var grid = new Grid(4);
 
-            //grid.CanColumnMove(1, Direction.East).Should().Throw<InvalidOperationException>();
+            grid.Invoking(a => a.CanColumnMove(1, Direction.East))
+                .Should().Throw<InvalidOperationException>();
         }
 
         [Fact]

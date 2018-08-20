@@ -50,7 +50,6 @@ namespace TileGame
         {
             var column = GetColumn(columnId);
             var numberTiles = column.Where(t => t is NumberTile).OrderBy(t => t.Row);
-            if (numberTiles.Count() == 0) return false;
 
             switch (direction)
             {
@@ -69,6 +68,7 @@ namespace TileGame
 
         public bool CanColumnMoveNorth(List<Tile> column, IEnumerable<Tile> numberTiles)
         {
+            if (numberTiles.Count() == 0) return false;
             if (numberTiles.Count() == 1)
             {
                 if (column[0] is NumberTile) return false;
