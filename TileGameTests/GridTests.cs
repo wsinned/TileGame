@@ -1,3 +1,4 @@
+using System;
 using FluentAssertions;
 using System.Linq;
 using TileGame;
@@ -83,12 +84,29 @@ namespace TileGameTests
         }
 
         [Fact]
+        public void A_column_cannot_move_east_or_west()
+        {
+            var grid = new Grid(4);
+
+            //grid.CanColumnMove(1, Direction.East).Should().Throw<InvalidOperationException>();
+        }
+
+        [Fact]
         public void A_column_with_a_single_tile_at_row_0_should_not_move_north()
         {
             var grid = new Grid(4);
             grid.SetTile(new NumberTile { Location = new Location(0, 1), Value = 2 });
 
             grid.CanColumnMove(1, Direction.North).Should().BeFalse();
+        }
+
+        [Fact]
+        public void A_column_with_a_single_numberTile_at_row_above_0_should_move_north()
+        {
+            var grid = new Grid(4);
+            grid.SetTile(new NumberTile { Location = new Location(1, 1), Value = 2 });
+
+            grid.CanColumnMove(1, Direction.North).Should().BeTrue();
         }
     }
 }

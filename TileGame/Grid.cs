@@ -49,12 +49,38 @@ namespace TileGame
         public bool CanColumnMove(int columnId, Direction direction)
         {
             var column = GetColumn(columnId);
-            if (column.Count(t => t is NumberTile) == 0) return false;
-            if (column.Count(t => t is NumberTile) == 1)
+            var numberTiles = column.Where(t => t is NumberTile).OrderBy(t => t.Row);
+            if (numberTiles.Count() == 0) return false;
+
+            switch (direction)
+            {
+                case Direction.North:
+                    return CanColumnMoveNorth(column, numberTiles);
+
+                case Direction.South:
+                    break;
+
+                default:
+                    throw new InvalidOperationException("A column cannot move in on the East/West axis.");
+            }
+  
+            return true;
+        }
+
+        public bool CanColumnMoveNorth(List<Tile> column, IEnumerable<Tile> numberTiles)
+        {
+            if (numberTiles.Count() == 1)
             {
                 if (column[0] is NumberTile) return false;
+
+                foreach (var tile in numberTiles)
+                {
+                    if (column[tile.Row - 1] is EmptyTile) return true;
+                }
+
             }
-            return true;
+
+            return false;
         }
     }
 }
