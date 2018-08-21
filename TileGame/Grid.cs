@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 
 namespace TileGame
@@ -36,67 +35,31 @@ namespace TileGame
             _tiles[numberTile.Location] = numberTile;
         }
 
-        public List<Tile> GetColumn(int column)
+        public TileList GetAxisTiles(Axis axis, int axisId)
         {
-            return _tiles.Values.Where(t => t.Column == column).OrderBy(t => t.Row).ToList();
-        }
-
-        public List<Tile> GetRow(int row)
-        {
-            return _tiles.Values.Where(t => t.Row == row).OrderBy(t => t.Column).ToList();
-        }
-
-        public bool CanColumnMove(int columnId, Direction direction)
-        {
-            var column = GetColumn(columnId);
-            var numberTiles = column.Where(t => t is NumberTile).OrderBy(t => t.Row);
-
-            switch (direction)
+            IEnumerable<Tile> tiles;
+            switch (axis)
             {
-                case Direction.North:
-                    return CanColumnMoveNorth(column, numberTiles);
+                case Axis.Horizontal:
+                    tiles = _tiles.Values.Where(t => t.Row == axisId).OrderBy(t => t.Column);
+                    break;
 
-                case Direction.South:
+                case Axis.Vertical:
+                    tiles = _tiles.Values.Where(t => t.Column == axisId).OrderBy(t => t.Row);
                     break;
 
                 default:
-                    throw new InvalidOperationException("A column cannot move in on the East/West axis.");
+                    tiles = null;
+                    break;
             }
-  
-            return true;
+            return new TileList(axis, tiles);
         }
 
-        private bool CanColumnMoveNorth(List<Tile> column, IEnumerable<Tile> numberTiles)
+        public bool CanAxisMove(Axis axis, int columnId, Direction direction)
         {
-            if (numberTiles.Count() == 0) return false;
-
-            var canMove = false;
-
-
-            foreach (var tile in numberTiles)
-            {
-                if (tile.Row == 0) {
-                    canMove = false;
-                    continue;
-                }
-
-                var prevTile = column[tile.Row - 1];
-
-                if (prevTile is EmptyTile)
-                {
-                    canMove = true;
-                    return canMove;
-                }
-
-                if (prevTile is NumberTile && (((NumberTile)prevTile).Value == ((NumberTile)tile).Value ))
-                {
-                    canMove = true;
-                    return canMove;
-                }
-            }
-
-
-            return canMove;
+            var column = GetAxisTiles(axis, columnId);
+            return column.CanMoveTowardsZero(direction);
         }
+
     }
 }

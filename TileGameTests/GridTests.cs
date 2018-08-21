@@ -1,6 +1,5 @@
 using System;
 using FluentAssertions;
-using System.Linq;
 using TileGame;
 using Xunit;
 
@@ -46,7 +45,7 @@ namespace TileGameTests
         {
             var grid = new Grid(4);
 
-            grid.GetColumn(0).Count.Should().Be(4);
+            grid.GetAxisTiles(Axis.Vertical, 0).Count.Should().Be(4);
         }
 
         [Fact]
@@ -54,7 +53,7 @@ namespace TileGameTests
         {
             var grid = new Grid(4);
 
-            grid.GetRow(0).Count.Should().Be(4);
+            grid.GetAxisTiles(Axis.Horizontal, 0).Count.Should().Be(4);
         }
 
         [Fact]
@@ -63,7 +62,7 @@ namespace TileGameTests
             var grid = new Grid(4);
             grid.SetTile(new NumberTile { Location = new Location(1, 2)});
 
-            grid.GetColumn(2).Count(t => t is NumberTile).Should().Be(1);
+            grid.GetAxisTiles(Axis.Vertical, 2).HasNumberTiles.Should().BeTrue();
         }
 
         [Fact]
@@ -72,7 +71,7 @@ namespace TileGameTests
             var grid = new Grid(4);
             grid.SetTile(new NumberTile { Location = new Location(1, 2)});
 
-            grid.GetRow(1).Count(t => t is NumberTile).Should().Be(1);
+            grid.GetAxisTiles(Axis.Horizontal, 1).HasNumberTiles.Should().BeTrue();
         }
 
         [Fact]
@@ -80,7 +79,8 @@ namespace TileGameTests
         {
             var grid = new Grid(4);
 
-            grid.CanColumnMove(1, Direction.North).Should().BeFalse();
+            grid.CanAxisMove(Axis.Vertical, 1, Direction.North).Should().BeFalse();
+            grid.CanAxisMove(Axis.Vertical, 1, Direction.South).Should().BeFalse();
         }
 
         [Fact]
@@ -88,8 +88,8 @@ namespace TileGameTests
         {
             var grid = new Grid(4);
 
-            grid.Invoking(a => a.CanColumnMove(1, Direction.East))
-                .Should().Throw<InvalidOperationException>();
+            grid.Invoking(a => a.CanAxisMove(Axis.Vertical, 1, Direction.East))
+                .Should().Throw<ArgumentException>();
         }
 
         [Fact]
@@ -98,7 +98,7 @@ namespace TileGameTests
             var grid = new Grid(4);
             grid.SetTile(new NumberTile { Location = new Location(0, 1), Value = 2 });
 
-            grid.CanColumnMove(1, Direction.North).Should().BeFalse();
+            grid.CanAxisMove(Axis.Vertical, 1, Direction.North).Should().BeFalse();
         }
 
         [Fact]
@@ -107,21 +107,21 @@ namespace TileGameTests
             var grid = new Grid(4);
             grid.SetTile(new NumberTile { Location = new Location(1, 1), Value = 2 });
 
-            grid.CanColumnMove(1, Direction.North).Should().BeTrue();
+            grid.CanAxisMove(Axis.Vertical, 1, Direction.North).Should().BeTrue();
         }
 
         [Fact]
-        public void A_column_with_a_numberTile_at_row_0_and_another_after_an_emprtyTile_can_move_north()
+        public void A_column_with_a_numberTile_at_row_0_and_another_after_an_emptyTile_can_move_north()
         {
             var grid = new Grid(4);
             grid.SetTile(new NumberTile { Location = new Location(1, 1), Value = 2 });
             grid.SetTile(new NumberTile { Location = new Location(3, 1), Value = 4 });
 
-            grid.CanColumnMove(1, Direction.North).Should().BeTrue();
+            grid.CanAxisMove(Axis.Vertical, 1, Direction.North).Should().BeTrue();
         }
 
         [Fact]
-        public void A_column_full_of_different_values_cannot_move_north()
+        public void A_column_full_of_different_values_cannot_move_north_or_south()
         {
             var grid = new Grid(4);
             grid.SetTile(new NumberTile { Location = new Location(0, 1), Value = 2 });
@@ -129,11 +129,12 @@ namespace TileGameTests
             grid.SetTile(new NumberTile { Location = new Location(2, 1), Value = 8 });
             grid.SetTile(new NumberTile { Location = new Location(3, 1), Value = 16 });
 
-            grid.CanColumnMove(1, Direction.North).Should().BeFalse();
+            grid.CanAxisMove(Axis.Vertical, 1, Direction.North).Should().BeFalse();
+            grid.CanAxisMove(Axis.Vertical, 1, Direction.South).Should().BeFalse();
         }
 
         [Fact]
-        public void A_column_with_adjacent_same_value_tiles_can_move_north()
+        public void A_column_with_adjacent_same_value_tiles_can_move_north_or_south()
         {
             var grid = new Grid(4);
             grid.SetTile(new NumberTile { Location = new Location(0, 1), Value = 2 });
@@ -141,7 +142,8 @@ namespace TileGameTests
             grid.SetTile(new NumberTile { Location = new Location(2, 1), Value = 4 });
             grid.SetTile(new NumberTile { Location = new Location(3, 1), Value = 16 });
 
-            grid.CanColumnMove(1, Direction.North).Should().BeTrue();
+            grid.CanAxisMove(Axis.Vertical, 1, Direction.North).Should().BeTrue();
+            grid.CanAxisMove(Axis.Vertical, 1, Direction.South).Should().BeTrue();
         }
     }
 }
