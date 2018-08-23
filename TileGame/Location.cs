@@ -11,6 +11,11 @@
             Column = column;
         }
 
+        public override string ToString()
+        {
+            return $"[{Row}, {Column}]";
+        }
+
         // override object.Equals
         public override bool Equals(object obj)
         {

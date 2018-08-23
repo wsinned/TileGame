@@ -6,5 +6,10 @@
 
         public int Row => Location.Row;
         public int Column => Location.Column;
+
+        public override string ToString()
+        {
+            return $"Tile {Location.ToString()}:";
+        }
     }
 }

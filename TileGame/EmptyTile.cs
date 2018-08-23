@@ -4,7 +4,7 @@
     {
         public override string ToString()
         {
-            return "Empty";
+            return base.ToString() + " Empty";
         }
     }
 }

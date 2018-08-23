@@ -6,7 +6,7 @@
 
         public override string ToString()
         {
-            return $"Value: {Value}";
+            return base.ToString() + $" Value {Value}";
         }
     }
 }
