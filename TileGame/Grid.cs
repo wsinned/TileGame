@@ -37,7 +37,7 @@ namespace TileGame
 
         public TileList GetAxisTiles(Axis axis, int axisId)
         {
-            IEnumerable<Tile> tiles;
+            IEnumerable<Tile> tiles = null;
             switch (axis)
             {
                 case Axis.Horizontal:
@@ -46,10 +46,6 @@ namespace TileGame
 
                 case Axis.Vertical:
                     tiles = _tiles.Values.Where(t => t.Column == axisId).OrderBy(t => t.Row);
-                    break;
-
-                default:
-                    tiles = null;
                     break;
             }
             return new TileList(axis, tiles);
