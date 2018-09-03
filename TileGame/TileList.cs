@@ -6,15 +6,13 @@ namespace TileGame
 {
     public class TileList
     {
-        private readonly IEnumerable<Tile> _tiles;
+        private IEnumerable<Tile> _tiles;
 
         public Axis Axis { get; private set; }
 
         public int Count => _tiles.Count();
 
         public bool IsEmpty => !_tiles.Any(t => t is NumberTile);
-
-        public bool IsFirstTileEmpty => _tiles.First() is EmptyTile;
 
         public bool HasNumberTiles => _tiles.Any(t => t is NumberTile);
 
@@ -24,30 +22,36 @@ namespace TileGame
             _tiles = tiles;
         }
 
+        public bool IsFirstTileEmpty(IEnumerable<Tile> tiles)
+        {
+                return tiles.First() is EmptyTile;
+        }
+
         public bool CanMoveTowardsZero(Direction direction)
         {
             CheckForInvalidMovement(direction);
 
-            var tiles = ReverseIfRequired(direction);
-
-            var numberTiles = tiles.Where(t => t is NumberTile).ToList();
+            var tiles = ReverseIfRequired(direction).ToList();
 
             if (IsEmpty) return false;
-            if (IsFirstTileEmpty) return true;
+            if (IsFirstTileEmpty(tiles)) return true;
 
-            for (int i = 1; i < numberTiles.Count(); i++)
+            for (int i = 1; i < tiles.Count(); i++)
             {
-                var tile = numberTiles[i];
-                var prevTile = numberTiles[i - 1];
+                var tile = tiles[i];
+                var prevTile = tiles[i - 1];
 
-                if (prevTile is EmptyTile)
+                if (tile is NumberTile && prevTile is EmptyTile)
                 {
                     return true;
                 }
 
-                if (prevTile is NumberTile && AreTilesSameValue(prevTile, tile))
+                if (tile is NumberTile && prevTile is NumberTile)
                 {
-                    return true;
+                    if (AreTilesSameValue(prevTile, tile))
+                    {
+                        return true;
+                    }
                 }
             }
 
@@ -97,6 +101,5 @@ namespace TileGame
                     return _tiles;
             }
         }
-
     }
 }

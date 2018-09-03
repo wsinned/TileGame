@@ -84,15 +84,6 @@ namespace TileGameTests
         }
 
         [Fact]
-        public void A_column_cannot_move_east_or_west()
-        {
-            var grid = new Grid(4);
-
-            grid.Invoking(a => a.CanAxisMove(Axis.Vertical, 1, Direction.East))
-                .Should().Throw<ArgumentException>();
-        }
-
-        [Fact]
         public void A_column_with_a_single_tile_at_row_0_should_not_move_north()
         {
             var grid = new Grid(4);
