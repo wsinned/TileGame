@@ -31,7 +31,7 @@ namespace TileGame
         {
             CheckForInvalidMovement(direction);
 
-            var tiles = ReverseIfRequired(direction).ToList();
+            var tiles = ReverseIfRequired(_tiles, direction).ToList();
 
             if (IsEmpty) return false;
             if (IsFirstTileEmpty(tiles)) return true;
@@ -87,19 +87,36 @@ namespace TileGame
             }
         }
 
-        private IEnumerable<Tile> ReverseIfRequired(Direction direction)
+        private IEnumerable<Tile> ReverseIfRequired(IEnumerable<Tile> tiles, Direction direction)
         {
+            var orderedTiles = OrderTiles(tiles, direction.GetAxisFromDirection());
+
             switch (direction)
             {
                 case Direction.East:
-                    return _tiles.Reverse();
+                    return OrderTiles(orderedTiles, Axis.Horizontal).Reverse();
 
                 case Direction.South:
-                    return _tiles.Reverse();
+                    return OrderTiles(orderedTiles, Axis.Vertical).Reverse();
 
                 default:
-                    return _tiles;
+                    return orderedTiles;
             }
+        }
+
+        private IEnumerable<Tile> OrderTiles(IEnumerable<Tile> tiles, Axis axis)
+        {
+            switch (axis)
+            {
+                case Axis.Horizontal:
+                    tiles = tiles.OrderBy(t => t.Column);
+                    break;
+
+                case Axis.Vertical:
+                    tiles = tiles.OrderBy(t => t.Row);
+                    break;
+            }
+            return tiles;
         }
     }
 }

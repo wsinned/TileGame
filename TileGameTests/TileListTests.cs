@@ -13,8 +13,8 @@ namespace TileGameTests
         {
             var tiles = new List<Tile> 
             { 
-                new EmptyTile() { Location = new Location(0, 0) }, 
-                new NumberTile() { Location = new Location(0, 1), Value = 2 } 
+                new EmptyTile { Location = new Location(0, 0) }, 
+                new NumberTile { Location = new Location(0, 1), Value = 2 } 
             };
             var sut = new TileList(Axis.Horizontal, tiles);
 
@@ -29,8 +29,8 @@ namespace TileGameTests
         {
             var tiles = new List<Tile> 
             { 
-                new EmptyTile() { Location = new Location(0, 0) }, 
-                new NumberTile() { Location = new Location(1, 0), Value = 2 } 
+                new EmptyTile { Location = new Location(0, 0) }, 
+                new NumberTile { Location = new Location(1, 0), Value = 2 } 
             };
             var sut = new TileList(Axis.Vertical, tiles);
 
@@ -41,29 +41,45 @@ namespace TileGameTests
         }
 
         [Fact]
-        public void TileList_should_not_move_east()
+        public void TileList_should_move_west_and_not_move_east()
         {
             var tiles = new List<Tile> 
             { 
-                new EmptyTile() { Location = new Location(0, 0) }, 
-                new NumberTile() { Location = new Location(0, 1), Value = 2 } 
+                new EmptyTile { Location = new Location(0, 0) }, 
+                new NumberTile { Location = new Location(0, 1), Value = 2 } 
             };
             var sut = new TileList(Axis.Horizontal, tiles);
 
             sut.CanMoveTowardsZero(Direction.East).Should().BeFalse();
+            sut.CanMoveTowardsZero(Direction.West).Should().BeTrue();
         }
 
         [Fact]
-        public void TileList_should_move_west()
+        public void TileList_should_move_east_and_not_move_west()
         {
-            var tiles = new List<Tile> 
-            { 
-                new EmptyTile() { Location = new Location(0, 0) }, 
-                new NumberTile() { Location = new Location(0, 1), Value = 2 } 
+            var tiles = new List<Tile>
+            {
+                new NumberTile { Location = new Location(0, 0), Value = 2 },
+                new EmptyTile { Location = new Location(0, 1) }
             };
             var sut = new TileList(Axis.Horizontal, tiles);
 
-            sut.CanMoveTowardsZero(Direction.West).Should().BeTrue();
+            sut.CanMoveTowardsZero(Direction.East).Should().BeTrue();
+            sut.CanMoveTowardsZero(Direction.West).Should().BeFalse();
+        }
+
+        [Fact]
+        public void TileList_should_be_ordered_independent_of_initial_order()
+        {
+            var tiles = new List<Tile> 
+            {
+                new EmptyTile { Location = new Location(0, 1) },
+                new NumberTile { Location = new Location(0, 0), Value = 2 }
+            };
+            var sut = new TileList(Axis.Horizontal, tiles);
+
+            sut.CanMoveTowardsZero(Direction.East).Should().BeTrue();
+            sut.CanMoveTowardsZero(Direction.West).Should().BeFalse();
         }
 
         [Fact]
@@ -71,9 +87,9 @@ namespace TileGameTests
         {
             var tiles = new List<Tile> 
             { 
-                new NumberTile() { Location = new Location(0, 0), Value = 2 },
-                new EmptyTile() { Location = new Location(0, 1) }, 
-                new NumberTile() { Location = new Location(0, 2), Value = 4 } 
+                new NumberTile { Location = new Location(0, 0), Value = 2 },
+                new EmptyTile { Location = new Location(0, 1) }, 
+                new NumberTile { Location = new Location(0, 2), Value = 4 } 
             };
             var sut = new TileList(Axis.Horizontal, tiles);
 
