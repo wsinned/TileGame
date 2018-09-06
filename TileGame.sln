@@ -3,11 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.27703.2026
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TileGameConsoleApp", "TileGameConsoleApp\TileGameConsoleApp.csproj", "{F08CEEA0-AC28-4F18-BA46-B961CB4215CC}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TileGameConsoleApp", "src\TileGameConsoleApp\TileGameConsoleApp.csproj", "{F08CEEA0-AC28-4F18-BA46-B961CB4215CC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TileGameTests", "TileGameTests\TileGameTests.csproj", "{C496C689-478D-4BBF-8D9A-A0A1FF3438D8}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TileGameTests", "test\TileGameTests\TileGameTests.csproj", "{C496C689-478D-4BBF-8D9A-A0A1FF3438D8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TileGame", "TileGame\TileGame.csproj", "{DA1D5DC2-FA78-48B8-9871-03EBB9FF11D1}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TileGame", "src\TileGame\TileGame.csproj", "{DA1D5DC2-FA78-48B8-9871-03EBB9FF11D1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

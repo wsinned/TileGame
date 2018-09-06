@@ -22,7 +22,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\TileGame\TileGame.csproj" />
+    <ProjectReference Include="..\..\src\TileGame\TileGame.csproj" />
   </ItemGroup>
 
 </Project>
