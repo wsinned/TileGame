@@ -3,20 +3,15 @@ namespace TileGame
 {
     public static class DirectionExtensions
     {
-        public static Axis GetAxisFromDirection(this Direction d)
+        public static Axis GetAxisFromDirection(this Direction direction)
         {
-            switch (d)
+            if (direction == Direction.East || direction == Direction.West)
             {
-                case Direction.East:
-                case Direction.West:
-                    return Axis.Horizontal;
-
-                case Direction.North:
-                case Direction.South:
-                    return Axis.Vertical;
-
-                default:
-                    throw new InvalidEnumArgumentException($"Not a direction: {d}");
+                return Axis.Horizontal;
+            }
+            else
+            {
+                return Axis.Vertical;
             }
         }
     }

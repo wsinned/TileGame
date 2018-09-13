@@ -9,31 +9,31 @@ namespace TileGameTests
     public class DirectionExtensionsTests
     {
         [Fact]
-        public void GetAxisFromDirection_East_is_a_Horizontal_direction()
+        public void GetAxis_East_is_a_Horizontal_direction()
         {
-            var d = Direction.East;
-            d.GetAxisFromDirection().Should().Be(Axis.Horizontal);
+            var east = Direction.East;
+            east.GetAxisFromDirection().Should().Be(Axis.Horizontal);
         }
 
         [Fact]
-        public void GetAxisFromDirection_West_is_a_Horizontal_direction()
+        public void GetAxis_West_is_a_Horizontal_direction()
         {
-            var d = Direction.West;
-            d.GetAxisFromDirection().Should().Be(Axis.Horizontal);
+            var west = Direction.West;
+            west.GetAxisFromDirection().Should().Be(Axis.Horizontal);
         }
 
         [Fact]
-        public void GetAxisFromDirection_North_is_a_Vertical_direction()
+        public void GetAxis_North_is_a_Vertical_direction()
         {
-            var d = Direction.North;
-            d.GetAxisFromDirection().Should().Be(Axis.Vertical);
+            var north = Direction.North;
+            north.GetAxisFromDirection().Should().Be(Axis.Vertical);
         }
 
         [Fact]
-        public void GetAxisFromDirection_South_is_a_Vertical_direction()
+        public void GetAxis_South_is_a_Vertical_direction()
         {
-            var d = Direction.South;
-            d.GetAxisFromDirection().Should().Be(Axis.Vertical);
+            var south = Direction.South;
+            south.GetAxisFromDirection().Should().Be(Axis.Vertical);
         }
     }
 }
